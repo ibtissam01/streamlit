@@ -3,4 +3,4 @@ pandas
 scikit-learn
 streamlit
 seaborn
-plotly
+plotly.express
