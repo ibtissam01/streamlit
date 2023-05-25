@@ -20,6 +20,20 @@ fig, ax = plt.subplots()
 sns.histplot(sales_data["QUANTITY"], ax=ax)
 st.pyplot(fig)
 
+# Convertir la colonne de date en un type de données de date
+sales_data["DATE"] = pd.to_datetime(sales_data["DATE"], format="%d/%m/%Y")
+
+# Regrouper les données de ventes par date et calculer la somme de la quantité vendue pour chaque jour
+daily_sales = sales_data.groupby("DATE").sum()["QUANTITY"]
+
+# Créer un graphique de ligne de la quantité vendue en fonction de la date
+fig, ax = plt.subplots()
+ax.plot(daily_sales.index, daily_sales.values)
+ax.set_xlabel("Date")
+ax.set_ylabel("Quantité vendue")
+ax.set_title("Évolution de la quantité vendue au fil du temps")
+st.pyplot(fig)
+
 # Créer une visualisation de nuage de points pour la relation entre la quantité et le prix de vente
 '''st.write("Relation entre la quantité et le prix de vente :")
 fig, ax = plt.subplots()
