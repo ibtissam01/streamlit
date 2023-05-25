@@ -33,6 +33,31 @@ ax.set_xlabel("Date")
 ax.set_ylabel("Quantité vendue")
 ax.set_title("Évolution de la quantité vendue au fil du temps")
 st.pyplot(fig)
+# Regrouper les données de ventes par année et calculer la somme de la quantité vendue pour chaque année
+yearly_sales = sales_data.groupby(sales_data["DATE"].dt.year).sum()["QUANTITY"]
+
+# Créer un graphique à barres de la quantité de ventes par an
+fig, ax = plt.subplots()
+ax.bar(yearly_sales.index, yearly_sales.values)
+ax.set_xlabel("Année")
+ax.set_ylabel("Quantité vendue")
+ax.set_title("Quantité de ventes par an")
+st.pyplot(fig)
+# Créer un graphique circulaire de la quantité de ventes par an
+fig, ax = plt.subplots()
+ax.pie(yearly_sales.values, labels=yearly_sales.index, autopct="%1.1f%%")
+ax.set_title("Quantité de ventes par an")
+st.pyplot(fig)
+# Regrouper les données de ventes par mois et calculer la somme de la quantité vendue pour chaque mois
+monthly_sales = sales_data.groupby(sales_data["DATE"].dt.strftime("%B %Y")).sum()["QUANTITY"]
+
+# Créer un graphique à barres de la quantité de ventes par mois
+fig, ax = plt.subplots()
+ax.bar(monthly_sales.index, monthly_sales.values)
+ax.set_xlabel("Mois")
+ax.set_ylabel("Quantité vendue")
+ax.set_title("Quantité de ventes par mois")
+st.pyplot(fig)
 
 # Créer une visualisation de nuage de points pour la relation entre la quantité et le prix de vente
 '''st.write("Relation entre la quantité et le prix de vente :")
