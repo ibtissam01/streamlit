@@ -130,6 +130,48 @@ ax.set_title("Quantité de ventes par produit et par type de vente")
 
 # Afficher la carte thermique dans Streamlit
 st.pyplot(fig)
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+
+# Convertir la colonne date en format de date
+data["DATE"] = pd.to_datetime(data["DATE"])
+
+# Ajouter des colonnes pour jour, mois et année
+data["JOUR"] = data["DATE"].dt.day
+data["MOIS"] = data["DATE"].dt.month
+data["ANNEE"] = data["DATE"].dt.year
+
+# Sidebar pour filtrer par produit ID, type de vente et mode de paiement
+st.sidebar.title("Filtres")
+product_id = st.sidebar.multiselect("Produit ID", data["PRODUCT ID"].unique())
+sale_type = st.sidebar.multiselect("Type de vente", data["SALE TYPE"].unique())
+payment_mode = st.sidebar.multiselect("Mode de paiement", data["PAYMENT MODE"].unique())
+
+# Filtrer les données
+filtered_data = data[(data["PRODUCT ID"].isin(product_id)) & 
+                     (data["SALE TYPE"].isin(sale_type)) &
+                     (data["PAYMENT MODE"].isin(payment_mode))]
+
+# Groupby pour agréger les données par jour, mois et année
+grouped_data_day = filtered_data.groupby(["JOUR", "MOIS", "ANNEE"]).sum().reset_index()
+grouped_data_month = filtered_data.groupby(["MOIS", "ANNEE"]).sum().reset_index()
+grouped_data_year = filtered_data.groupby("ANNEE").sum().reset_index()
+
+# Afficher les graphiques
+st.title("Visualisation des quantités vendues")
+st.subheader("Par jour")
+fig_day = px.line(grouped_data_day, x="JOUR", y="QUANTITY", color="PRODUCT ID", title="Quantité vendue par jour")
+st.plotly_chart(fig_day)
+
+st.subheader("Par mois")
+fig_month = px.line(grouped_data_month, x="MOIS", y="QUANTITY", color="PRODUCT ID", title="Quantité vendue par mois")
+st.plotly_chart(fig_month)
+
+st.subheader("Par année")
+fig_year = px.line(grouped_data_year, x="ANNEE", y="QUANTITY", color="PRODUCT ID", title="Quantité vendue par année")
+st.plotly_chart(fig_year)
 # Créer une visualisation de nuage de points pour la relation entre la quantité et le prix de vente
 '''st.write("Relation entre la quantité et le prix de vente :")
 fig, ax = plt.subplots()
