@@ -118,8 +118,18 @@ ax.set_title("Quantité de ventes par mode de paiement")
 # Afficher le graphique à barres dans Streamlit
 st.pyplot(fig)
 
+# Regrouper les données de ventes par produit et par type de vente et calculer la somme de la quantité vendue pour chaque produit et chaque type de vente
+sales_pivot = sales_data.pivot_table(index="PRODUCT ID", columns="SALE TYPE", values="QUANTITY", aggfunc="sum")
 
+# Créer une carte thermique des quantités de ventes par produit et par type de vente
+fig, ax = plt.subplots()
+sns.heatmap(sales_pivot, annot=True, cmap="YlGnBu", fmt=".0f", ax=ax)
+ax.set_xlabel("Type de vente")
+ax.set_ylabel("Produit")
+ax.set_title("Quantité de ventes par produit et par type de vente")
 
+# Afficher la carte thermique dans Streamlit
+st.pyplot(fig)
 # Créer une visualisation de nuage de points pour la relation entre la quantité et le prix de vente
 '''st.write("Relation entre la quantité et le prix de vente :")
 fig, ax = plt.subplots()
