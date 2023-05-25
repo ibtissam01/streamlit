@@ -21,10 +21,11 @@ sns.histplot(sales_data["QUANTITY"], ax=ax)
 st.pyplot(fig)
 
 # Créer une visualisation de nuage de points pour la relation entre la quantité et le prix de vente
-st.write("Relation entre la quantité et le prix de vente :")
+'''st.write("Relation entre la quantité et le prix de vente :")
 fig, ax = plt.subplots()
 sns.scatterplot(x="QUANTITY", y="PRICE", data=sales_data, ax=ax)
 st.pyplot(fig)
+
 st.write("Modèle de régression linéaire pour prédire les ventes futures :")
 X = sales_data[["QUANTITY"]]
 y = sales_data["SALES"]
