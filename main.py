@@ -11,7 +11,9 @@ st.write(sales_data.shape)
 st.write(sales_data.dtypes)
 st.write(sales_data.describe())
 
-st.pyplot(sns.histplot(sales_data["QUANTITY"]))
+fig, ax = plt.subplots()
+sns.histplot(sales_data["QUANTITY"], ax=ax)
+st.pyplot(fig)
 # Ajouter un filtre pour afficher les données par type de vente
 sale_types = sales_data["SALE TYPE"].unique()
 selected_sale_type = st.selectbox("Select a sale type", sale_types)
