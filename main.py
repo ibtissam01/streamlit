@@ -133,11 +133,11 @@ st.pyplot(fig)
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-
+data=sales_data
 
 # Convertir la colonne date en format de date
 data["DATE"] = pd.to_datetime(data["DATE"])
-
+data=sales_data
 # Ajouter des colonnes pour jour, mois et année
 data["JOUR"] = data["DATE"].dt.day
 data["MOIS"] = data["DATE"].dt.month
@@ -145,14 +145,14 @@ data["ANNEE"] = data["DATE"].dt.year
 
 # Sidebar pour filtrer par produit ID, type de vente et mode de paiement
 st.sidebar.title("Filtres")
-product_id = st.sidebar.multiselect("Produit ID", data["PRODUCT ID"].unique())
-sale_type = st.sidebar.multiselect("Type de vente", data["SALE TYPE"].unique())
-payment_mode = st.sidebar.multiselect("Mode de paiement", data["PAYMENT MODE"].unique())
+product_id = st.sidebar.multiselect("Produit ID", sales_data["PRODUCT ID"].unique())
+sale_type = st.sidebar.multiselect("Type de vente",sales_data["SALE TYPE"].unique())
+payment_mode = st.sidebar.multiselect("Mode de paiement", sales_data["PAYMENT MODE"].unique())
 
 # Filtrer les données
-filtered_data = data[(data["PRODUCT ID"].isin(product_id)) & 
-                     (data["SALE TYPE"].isin(sale_type)) &
-                     (data["PAYMENT MODE"].isin(payment_mode))]
+filtered_data = sales_data[(sales_data["PRODUCT ID"].isin(product_id)) & 
+                     (sales_data["SALE TYPE"].isin(sale_type)) &
+                     (sales_data["PAYMENT MODE"].isin(payment_mode))]
 
 # Groupby pour agréger les données par jour, mois et année
 grouped_data_day = filtered_data.groupby(["JOUR", "MOIS", "ANNEE"]).sum().reset_index()
