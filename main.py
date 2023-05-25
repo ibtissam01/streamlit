@@ -48,7 +48,8 @@ ax.pie(yearly_sales.values, labels=yearly_sales.index, autopct="%1.1f%%")
 ax.set_title("Quantité de ventes par an")
 st.pyplot(fig)
 # Regrouper les données de ventes par mois et calculer la somme de la quantité vendue pour chaque mois
-monthly_sales = sales_data.groupby(sales_data["DATE"].dt.strftime("%B %Y"))["QUANTITY"].sum
+# Regrouper les données de ventes par mois et calculer la somme de la quantité vendue pour chaque mois
+monthly_sales = sales_data.groupby(sales_data["DATE"].dt.strftime("%B %Y"))["QUANTITY"].sum()
 
 # Créer un graphique à barres de la quantité de ventes par mois
 fig, ax = plt.subplots()
