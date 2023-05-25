@@ -1,98 +1,38 @@
-import subprocess
-! pip install scikit-learn
-subprocess.call(['pip', 'install', 'scikit-learn'])
+from collections import namedtuple
+import altair as alt
+import math
 import pandas as pd
-import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.cluster import KMeans
-from sklearn.metrics import r2_score, silhouette_score
 import streamlit as st
 
-# Charger le fichier Excel dans un DataFrame Pandas
-df = pd.read_excel('sales_data.xlsx')
+"""
+# Welcome to Streamlit!
 
-# Analyse de données exploratoire
-st.title('Sales Dashboard')
-st.write('## Data Exploration')
+Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
 
-# Afficher les premières lignes du DataFrame
-if st.checkbox('Show Data'):
-    st.write(df.head())
+If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
+forums](https://discuss.streamlit.io).
 
-# Afficher les statistiques descriptives des données
-if st.checkbox('Show Descriptive Statistics'):
-    st.write(df.describe())
+In the meantime, below is an example of what you can do with just a few lines of code:
+"""
 
-# Afficher un graphique en boîte de la quantité de vente
-df.boxplot(column='Quantity', vert=False)
-plt.title('Quantity Boxplot')
-plt.xlabel('Quantity')
-st.pyplot()
 
-# Afficher un graphique en boîte du pourcentage de réduction
-df.boxplot(column='Discount %', vert=False)
-plt.title('Discount Boxplot')
-plt.xlabel('Discount%')
-st.pyplot()
+with st.echo(code_location='below'):
+    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
+    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
 
-# Afficher une matrice de corrélation des variables
-corr_matrix = df.corr()
-sns.heatmap(corr_matrix, annot=True)
-st.pyplot()
+    Point = namedtuple('Point', 'x y')
+    data = []
 
-# Modèles de régression pour prédire les ventes futures
-st.write('## Sales Prediction')
+    points_per_turn = total_points / num_turns
 
-# Préparation des données pour la régression linéaire
-X = df[['Quantity', 'Discount %']]
-y = df['SALE TYPE']
+    for curr_point_num in range(total_points):
+        curr_turn, i = divmod(curr_point_num, points_per_turn)
+        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
+        radius = curr_point_num / total_points
+        x = radius * math.cos(angle)
+        y = radius * math.sin(angle)
+        data.append(Point(x, y))
 
-# Création des modèles de régression
-models = {'Linear Regression': LinearRegression(),
-          'Decision Tree Regression': DecisionTreeRegressor(),
-          'Random Forest Regression': RandomForestRegressor()}
-
-# Entraînement des modèles et calcul de l'accuracy
-for name, model in models.items():
-    model.fit(X, y)
-    y_pred = model.predict(X)
-    r2 = r2_score(y, y_pred)
-    st.write(f'{name} Accuracy:', r2)
-
-# Modèles de clustering pour segmenter les clients
-st.write('## Customer Segmentation')
-
-# Préparation des données pour le clustering
-X = df[['Quantity', 'Discount %']]
-
-# Création des modèles de clustering
-models = {'K-Means Clustering (k=2)': KMeans(n_clusters=2),
-          'K-Means Clustering (k=3)': KMeans(n_clusters=3),
-          'K-Means Clustering (k=4)': KMeans(n_clusters=4)}
-
-# Entraînement des modèles et calcul de l'accuracy
-for name, model in models.items():
-    model.fit(X)
-    y_pred = model.predict(X)
-    silhouette = silhouette_score(X, y_pred)
-    st.write(f'{name} Silhouette Score:', silhouette)
-
-# Interface utilisateur Streamlit pour l'application
-st.write('## Sales Dashboard Application')
-st.write('Enter the sales data below to see the predicted sales type for the given quantity and discount.')
-
-# Afficher un formulaire pour saisir les données de vente
-form = st.form(key='my_form')
-quantity = form.number_input('Quantity', min_value=0)
-discount = form.number_input('Discount %', min_value=0, max_value=100)
-submit_button = form.form_submit_button(label='Submit')
-
-# Prédire le type de vente en fonction des données de vente saisies
-if submit_button:
-    new_data = {'Quantity': quantity, 'Discount %': discount}
-    X_new = pd.DataFrame(new_data, index=[0])
-    for name, model in models.items():
-        y_new = model.predict(X_new)
-        st.write(f'Predicted sales type for {quantity} quantity and {discount}% discount using {name}:', y_new[0])
+    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
+        .mark_circle(color='#0068c9', opacity=0.5)
+        .encode(x='x:Q', y='y:Q'))
