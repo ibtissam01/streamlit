@@ -154,24 +154,6 @@ filtered_data = sales_data[(sales_data["PRODUCT ID"].isin(product_id)) &
                      (sales_data["SALE TYPE"].isin(sale_type)) &
                      (sales_data["PAYMENT MODE"].isin(payment_mode))]
 
-# Groupby pour agréger les données par jour, mois et année
-grouped_data_day = filtered_data.groupby(["JOUR", "MOIS", "ANNEE"]).sum().reset_index()
-grouped_data_month = filtered_data.groupby(["MOIS", "ANNEE"]).sum().reset_index()
-grouped_data_year = filtered_data.groupby("ANNEE").sum().reset_index()
-
-# Afficher les graphiques
-st.title("Visualisation des quantités vendues")
-st.subheader("Par jour")
-fig_day = px.line(grouped_data_day, x="JOUR", y="QUANTITY", color="PRODUCT ID", title="Quantité vendue par jour")
-st.plotly_chart(fig_day)
-
-st.subheader("Par mois")
-fig_month = px.line(grouped_data_month, x="MOIS", y="QUANTITY", color="PRODUCT ID", title="Quantité vendue par mois")
-st.plotly_chart(fig_month)
-
-st.subheader("Par année")
-fig_year = px.line(grouped_data_year, x="ANNEE", y="QUANTITY", color="PRODUCT ID", title="Quantité vendue par année")
-st.plotly_chart(fig_year)
 # Créer une visualisation de nuage de points pour la relation entre la quantité et le prix de vente
 '''st.write("Relation entre la quantité et le prix de vente :")
 fig, ax = plt.subplots()
