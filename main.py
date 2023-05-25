@@ -39,4 +39,4 @@ X = sales_data[["QUANTITY", "PRICE"]]
 model = KMeans(n_clusters=3)
 model.fit(X)
 sales_data["cluster"] = model.predict(X)
-st.write(sales_data.groupby("cluster").mean())
+st.write(sales_data.groupby("cluster").mean())'''
