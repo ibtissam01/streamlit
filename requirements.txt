@@ -1,5 +1,5 @@
-altair==4.1.0
-pandas==1.2.5
-scikit-learn==0.24.2
-streamlit==0.86.0
+altair
+pandas
+scikit-learn
+streamlit
 seaborn
