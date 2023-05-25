@@ -58,7 +58,22 @@ ax.set_xlabel("Mois")
 ax.set_ylabel("Quantité vendue")
 ax.set_title("Quantité de ventes par mois")
 st.pyplot(fig)
+# Charger les données de ventes à partir d'un fichier CSV
+sales_data = pd.read_csv("nom_du_fichier.csv")
 
+# Regrouper les données de ventes par produit et calculer la somme de la quantité vendue pour chaque produit
+product_sales = sales_data.groupby("PRODUCT")["QUANTITY"].sum()
+
+# Créer un graphique à barres de la quantité de ventes par produit
+fig, ax = plt.subplots()
+ax.bar(product_sales.index, product_sales.values)
+ax.set_xlabel("Produit")
+ax.set_ylabel("Quantité vendue")
+ax.set_title("Quantité de ventes par produit")
+plt.xticks(rotation=90)
+
+# Afficher le graphique à barres dans Streamlit
+st.pyplot(fig)
 # Créer une visualisation de nuage de points pour la relation entre la quantité et le prix de vente
 '''st.write("Relation entre la quantité et le prix de vente :")
 fig, ax = plt.subplots()
