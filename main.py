@@ -60,7 +60,7 @@ ax.set_title("Quantité de ventes par mois")
 st.pyplot(fig)
 
 # Regrouper les données de ventes par produit et calculer la somme de la quantité vendue pour chaque produit
-product_sales = sales_data.groupby("PRODUCT")["QUANTITY"].sum()
+product_sales = sales_data.groupby("PRODUCT ID")["QUANTITY"].sum()
 
 # Créer un graphique à barres de la quantité de ventes par produit
 fig, ax = plt.subplots()
