@@ -21,7 +21,7 @@ sns.histplot(sales_data["QUANTITY"], ax=ax)
 st.pyplot(fig)
 
 # Convertir la colonne de date en un type de données de date
-sales_data["DATE"] = pd.to_datetime(sales_data["DATE"], format="%d/%m/%Y")
+sales_data["DATE"] = pd.to_datetime(sales_data["DATE"], format="%m/%d/%Y")
 
 # Regrouper les données de ventes par date et calculer la somme de la quantité vendue pour chaque jour
 daily_sales = sales_data.groupby("DATE").sum()["QUANTITY"]
