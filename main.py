@@ -58,8 +58,6 @@ ax.set_xlabel("Mois")
 ax.set_ylabel("Quantité vendue")
 ax.set_title("Quantité de ventes par mois")
 st.pyplot(fig)
-# Charger les données de ventes à partir d'un fichier CSV
-sales_data = pd.read_csv("nom_du_fichier.csv")
 
 # Regrouper les données de ventes par produit et calculer la somme de la quantité vendue pour chaque produit
 product_sales = sales_data.groupby("PRODUCT")["QUANTITY"].sum()
