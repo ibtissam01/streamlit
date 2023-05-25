@@ -1,5 +1,5 @@
 import subprocess
-
+! pip install scikit-learn
 subprocess.call(['pip', 'install', 'scikit-learn'])
 import pandas as pd
 import numpy as np
