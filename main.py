@@ -4,7 +4,7 @@ import pandas as pd
 
 
 # Charger les données à partir d'un fichier CSV
-sales_data = pd.read_csv("sales_data.csv")
+sales_data = pd.read_csv("https://github.com/ibtissam01/streamlit/blob/main/sales_data.xlsx")
 
 # Afficher les informations générales sur les données
 st.write(sales_data.shape)
