@@ -12,7 +12,7 @@ st.write(pd.DataFrame({
 
 
 # Charger les données à partir d'un fichier CSV
-sales_data = pd.read_csv("https://raw.githubusercontent.com/<username>/<repo>/<branch>/sales_data.csv")
+sales_data = pd.read_csv("sales_data.csv")
 
 # Afficher les informations générales sur les données
 st.write(sales_data.shape)
