@@ -34,8 +34,7 @@ ax.set_ylabel("Quantité vendue")
 ax.set_title("Évolution de la quantité vendue au fil du temps")
 st.pyplot(fig)
 # Regrouper les données de ventes par année et calculer la somme de la quantité vendue pour chaque année
-yearly_sales = sales_data.groupby(sales_data["DATE"].dt.year).sum()["QUANTITY"]
-
+yearly_sales = sales_data.groupby(sales_data["DATE"].dt.year)["QUANTITY"].sum()
 # Créer un graphique à barres de la quantité de ventes par an
 fig, ax = plt.subplots()
 ax.bar(yearly_sales.index, yearly_sales.values)
