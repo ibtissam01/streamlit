@@ -75,6 +75,51 @@ plt.xticks(rotation=90)
 
 # Afficher le graphique à barres dans Streamlit
 st.pyplot(fig)
+
+# Regrouper les données de ventes par produit et par type de vente et calculer la somme de la quantité vendue pour chaque produit et chaque type de vente
+sales_pivot = sales_data.pivot_table(index="PRODUCT ID", columns="SALE TYPE", values="QUANTITY", aggfunc="sum")
+
+# Créer un graphique à barres empilé de la quantité de ventes par produit et par type de vente
+fig, ax = plt.subplots()
+sales_pivot.plot(kind="bar", stacked=True, ax=ax)
+ax.set_xlabel("Produit")
+ax.set_ylabel("Quantité vendue")
+ax.set_title("Quantité de ventes par produit et par type de vente")
+plt.xticks(rotation=90)
+
+# Afficher le graphique à barres empilé dans Streamlit
+st.pyplot(fig)
+
+
+
+# Regrouper les données de ventes par type de vente et calculer la somme de la quantité vendue pour chaque type de vente
+sale_type_sales = sales_data.groupby("SALE TYPE")["QUANTITY"].sum()
+
+# Créer un graphique à barres de la quantité de ventes par type de vente
+fig, ax = plt.subplots()
+ax.bar(sale_type_sales.index, sale_type_sales.values)
+ax.set_xlabel("Type de vente")
+ax.set_ylabel("Quantité vendue")
+ax.set_title("Quantité de ventes par type de vente")
+
+# Afficher le graphique à barres dans Streamlit
+st.pyplot(fig)
+
+# Regrouper les données de ventes par mode de paiement et calculer la somme de la quantité vendue pour chaque mode de paiement
+payment_mode_sales = sales_data.groupby("PAYMENT MODE")["QUANTITY"].sum()
+
+# Créer un graphique à barres de la quantité de ventes par mode de paiement
+fig, ax = plt.subplots()
+ax.bar(payment_mode_sales.index, payment_mode_sales.values)
+ax.set_xlabel("Mode de paiement")
+ax.set_ylabel("Quantité vendue")
+ax.set_title("Quantité de ventes par mode de paiement")
+
+# Afficher le graphique à barres dans Streamlit
+st.pyplot(fig)
+
+
+
 # Créer une visualisation de nuage de points pour la relation entre la quantité et le prix de vente
 '''st.write("Relation entre la quantité et le prix de vente :")
 fig, ax = plt.subplots()
